@@ -1,0 +1,42 @@
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Debug / Release (в любой вложенной директории)
+**/Debug/
+**/Release/
+**/debug/
+**/release/
+
+# Другие конфигурации сборки
+**/x64/Debug/
+**/x64/Release/
+**/Win32/Debug/
+**/Win32/Release/
+
+# Intermediate build files
+**/obj/
+**/ipch/
+
+# Compiled binaries
+*.exe
+*.dll
+*.lib
+*.exp
+*.pdb
+*.ilk
+*.obj
+*.pch
+
+# CMake generated
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+build/
+
+# OS
+Thumbs.db
+.DS_Store
