@@ -8,6 +8,7 @@ const char* APP_NAME = "Gothic";
 
 HANDLE g_lpTargetHandle = nullptr;
 HANDLE g_FirstMutex = nullptr;
+HANDLE g_lockApp = nullptr;
 
 HMENU g_Menu = nullptr;
 HICON g_Icon = nullptr;
@@ -35,7 +36,7 @@ int g_VidHideMenu = 0;
 
 const char* s_Could_not_register_window_class_00839c74 = "Could not register window class";
 
-int g_UseRegistry = 0;
+int g_UseRegistry = 1;  
 int g_IsWindowVisible = 0;
 
 HANDLE g_LoaderThread = nullptr;

@@ -13,6 +13,7 @@ extern const char* APP_NAME;
 // --- Разное системное ---
 extern HANDLE g_lpTargetHandle;
 extern HANDLE g_FirstMutex;
+extern HANDLE g_lockApp;
 extern HMENU g_Menu;
 extern HICON g_Icon;
 extern HBITMAP g_BitMap;

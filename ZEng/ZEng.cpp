@@ -9,6 +9,7 @@
 #define TARGET_FPS 70
 #define TARGET_MS 0xe
 
+
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 int MainProg();
 
@@ -19,9 +20,9 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char* lpCmdL
 
     g_hInstApp = hInstance;
     std::string lockName = "Lock_Gothic";
-    HANDLE lockApp = CreateFileMappingA(INVALID_HANDLE_VALUE, nullptr, PAGE_READWRITE, 0, 32, lockName.c_str());
+    g_lockApp = CreateFileMappingA(INVALID_HANDLE_VALUE, nullptr, PAGE_READWRITE, 0, 32, lockName.c_str());
 
-    if (lockApp) {
+    if (g_lockApp) {
         DWORD ErrorNum = GetLastError();
         if (ErrorNum == ERROR_ALREADY_EXISTS)
             ExitProcess(1);
