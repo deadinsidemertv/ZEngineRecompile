@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="ZEng/ZEng.vcxproj" />
+  <Project Path="ZEng/ZEng.vcxproj" Id="fc162e44-7477-4459-9c52-2d33014f049a" />
 </Solution>
