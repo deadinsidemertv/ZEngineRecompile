@@ -25,9 +25,9 @@ void CGameManager::Init(HWND hwnd)
 	this->gameSession = nullptr;
 
 
-	SystemFunc::sysEvent();
-	SystemFunc::GameInit(this);
-	SystemFunc::sysEvent();
+	sysEvent();
+	GameInit(this);
+	sysEvent();
 
 };
 
@@ -61,7 +61,7 @@ void CGameManager::Run()
 	while ((localExitFlag == 0 && (session == nullptr || (localExitFlag = session->Update()) == 0)))
 	{
 		zCMenu::inGameMenu = 0;
-		SystemFunc::Menu(this, 0);
+		Menu(this, 0);
 		zCMenu::inGameMenu = 1;
 
 		localExitFlag = this->exitFlag;

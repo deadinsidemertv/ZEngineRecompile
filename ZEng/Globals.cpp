@@ -1,5 +1,6 @@
 #include "Globals.h"
 #include "zCEngine.h"
+#include <ddraw.h>
 #include "zCView.h"
 
 char* g_sysCommandLine = 0;
@@ -77,3 +78,11 @@ int g_noNetwork = 0;
 int g_noDraw = 0;
 int g_noDrawwin = 0;
 int g_vidCheckMemory = 0;
+
+int g_vidBusyMode = 0;
+int g_winMinimized = 0;
+
+IDirectDraw7* g_DirectDraw = nullptr;
+int g_vidDontShowErrors = 0;
+const char* g_DirectDrawError = 0;
+SURFACE* g_SurfaceListHead = nullptr;

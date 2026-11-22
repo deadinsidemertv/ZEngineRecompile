@@ -3,28 +3,29 @@
 
 class CGameManager;
 
-class SystemFunc
-{
-public:
-	static void sysEvent();
-	static void sysParseCommandLine(char* lpCmdLine);
-	static void sysHardExit(const char* msg,...);
-	static void NetInit();
-	static void cfgFetchTopic(const char* path);
-	static void libExit();
+
+void sysEvent();
+void sysParseCommandLine(char* lpCmdLine);
+void sysHardExit(const char* msg,...);
+void NetInit();
+void cfgFetchTopic(const char* path);
+void libExit();
 
 
-	static DWORD LoaderThreadProc(LPVOID lpParam);
-	static INT_PTR SplashDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+DWORD LoaderThreadProc(LPVOID lpParam);
+INT_PTR SplashDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
-	static void Menu(CGameManager* gm, int mode);
-	static void GameInit(CGameManager* gm);
+void Menu(CGameManager* gm, int mode);
+void GameInit(CGameManager* gm);
 
 
-	static void CheckWindowsVersion();
+void CheckWindowsVersion();
 
-	static INT_PTR CALLBACK MemoryDialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK MemoryDialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 	
-	static int sysCheckOption(char* cmdLower, const char* option, bool remove);
-};
+int sysCheckOption(char* cmdLower, const char* option, bool remove);
+
+void winWaitMessage(UINT message, WPARAM wParamValue, WPARAM wParamMask, LPARAM lParamValue, LPARAM lParamMask, BOOL checkWindowState);
+
+
 

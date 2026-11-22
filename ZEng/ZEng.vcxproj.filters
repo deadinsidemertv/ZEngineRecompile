@@ -13,11 +13,17 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Video">
+      <UniqueIdentifier>{f177eca9-26d0-4451-93cd-695d6932d37e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Win32">
+      <UniqueIdentifier>{6740e829-eed8-4a96-97f5-66ea988ff5c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{9d0ab5aa-eaff-4749-a30e-990cd13349cc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ZEng.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CGameManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -44,6 +50,15 @@
     </ClCompile>
     <ClCompile Include="Globals.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zVideo_Win32.cpp">
+      <Filter>Video</Filter>
+    </ClCompile>
+    <ClCompile Include="zWin32.cpp">
+      <Filter>Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="Phoenix.cpp">
+      <Filter>Main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +91,15 @@
     </ClInclude>
     <ClInclude Include="zCEngine.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zVideo_Win32.h">
+      <Filter>Video</Filter>
+    </ClInclude>
+    <ClInclude Include="Phoenix.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="zWin32.h">
+      <Filter>Win32</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

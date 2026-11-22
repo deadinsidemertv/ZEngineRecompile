@@ -1,6 +1,8 @@
+#include "zWin32.h"
 #include <iostream>
 #include "SystemFunc.h"
 #include "Globals.h"
+#include "Phoenix.h"
 #include <commctrl.h>
 #pragma warning(disable : 4996)
 #include "CGameManager.h"
@@ -13,7 +15,6 @@
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK netWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-int MainProg();
 
 
 int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char* lpCmdLine, int nCmdShow) {
@@ -68,14 +69,14 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char* lpCmdL
         CurrentTick.LowPart = g_EngineTick;
     }
 
-    SystemFunc::sysParseCommandLine(lpCmdLine);
+    sysParseCommandLine(lpCmdLine);
     g_FirstMutex = CreateMutexA(NULL, FALSE, NULL);
     GetModuleFileNameA(NULL,g_ExePath, MAX_PATH);
     InitCommonControls();
 
     memset(g_MouseData, 0, sizeof(g_MouseData));
 
-    SystemFunc::CheckWindowsVersion();
+    CheckWindowsVersion();
 
     g_dcScreen = CreateCompatibleDC(NULL);
     int tempMetric = GetSystemMetrics(SM_CXFRAME);
@@ -99,7 +100,7 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char* lpCmdL
     ATOM WindowClassID = RegisterClassA(&windowClass);
 
     if (WindowClassID == 0) {
-        SystemFunc::sysHardExit(s_Could_not_register_window_class_00839c74);
+        sysHardExit(s_Could_not_register_window_class_00839c74);
     }
 
     windowClass = { 0 };
@@ -110,7 +111,7 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char* lpCmdL
     WindowClassID = RegisterClassA(&windowClass);
 
     if (WindowClassID == 0) {
-        SystemFunc::sysHardExit(s_Could_not_register_window_class_00839c74);
+        sysHardExit(s_Could_not_register_window_class_00839c74);
     }
 
     g_WindowPosition = CW_USEDEFAULT;
@@ -118,7 +119,7 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char* lpCmdL
     g_WindowHeight = g_WindowExtraHeight + 240;
 
     if (g_UseRegistry != 0) {
-        SystemFunc::cfgFetchTopic("System");
+        cfgFetchTopic("System");
     }
 
 
@@ -131,24 +132,10 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char* lpCmdL
 
     if (g_HWND != nullptr) {
         
-        SystemFunc::NetInit(); // без реализации в оригинале
+        NetInit(); // без реализации в оригинале
         MainProg();
-        SystemFunc::libExit();
+        libExit();
     }
-
-    return 0;
-}
-
-
-int MainProg()
-{
-
-    SystemFunc::sysEvent();
-
-    CGameManager GameManager;
-    GameManager.Init(g_HWND);
-    GameManager.Run();
-    GameManager.Done();
 
     return 0;
 }
@@ -170,4 +157,20 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 LRESULT CALLBACK netWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     return DefWindowProcA(hwnd, uMsg, wParam, lParam);
+}
+
+DWORD sysGetTime()
+{
+    DWORD time;
+    LARGE_INTEGER tick;
+
+    if (g_UseHighResTimer == 0) {
+        time = timeGetTime();
+
+        return (DWORD)time - g_GameTime;
+    }
+
+    QueryPerformanceCounter(&tick);
+
+    return static_cast<DWORD>(tick.QuadPart / g_TimerFrequencyMS - g_GameTime);
 }

@@ -4,7 +4,7 @@
 #pragma warning(disable : 4996)
 #include "CGameManager.h"
 
-void SystemFunc::sysEvent()
+void sysEvent()
 {
 	if (g_SysEventInProgress) {
 		return;
@@ -60,7 +60,7 @@ void SystemFunc::sysEvent()
 	g_SysEventInProgress = false;
 }
 
-void SystemFunc::sysParseCommandLine(char  *lpCmdLine)
+void sysParseCommandLine(char  *lpCmdLine)
 {
 	DWORD CurrentTime;
 	DWORD TimeFromStart;
@@ -184,27 +184,27 @@ void SystemFunc::sysParseCommandLine(char  *lpCmdLine)
 	return;
 }
 
-void SystemFunc::sysHardExit(const char* msg,...)
+void sysHardExit(const char* msg,...)
 {
 
 }
 
-void SystemFunc::NetInit()
+void NetInit()
 {
 
 }
 
-void SystemFunc::cfgFetchTopic(const char* path) 
+void cfgFetchTopic(const char* path) 
 {
 
 }
 
-void SystemFunc::libExit() 
+void libExit() 
 {
 
 }
 
-DWORD SystemFunc::LoaderThreadProc(LPVOID lpParam)
+DWORD LoaderThreadProc(LPVOID lpParam)
 {
 	g_DialogParam = CreateDialogParamA(g_hInstApp, (LPCSTR)0xa5, NULL, &SplashDlgProc, 0);
 	SetWindowTextA(g_DialogParam, "Gothic Loading");
@@ -239,7 +239,7 @@ DWORD SystemFunc::LoaderThreadProc(LPVOID lpParam)
 	return 0;
 }
 
-INT_PTR SystemFunc::SplashDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR SplashDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_DESTROY) {
 		PostQuitMessage(0);
@@ -247,12 +247,12 @@ INT_PTR SystemFunc::SplashDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPa
 	return 0;
 }
 
-void SystemFunc::Menu(CGameManager* gm, int mode)
+void Menu(CGameManager* gm, int mode)
 {
 
 }
 
-void SystemFunc::GameInit(CGameManager* gm)
+void GameInit(CGameManager* gm)
 {
 	BYTE keyState[256];
 
@@ -279,7 +279,7 @@ void SystemFunc::GameInit(CGameManager* gm)
 
 }
 
-void SystemFunc::CheckWindowsVersion()
+void CheckWindowsVersion()
 {
 	HDC hdc;
 	char osName[64];
@@ -324,12 +324,12 @@ void SystemFunc::CheckWindowsVersion()
 
 
 
-INT_PTR CALLBACK SystemFunc::MemoryDialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK MemoryDialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	return FALSE;   // TODO: FUN_004f34c0
 }
 
-int SystemFunc::sysCheckOption(char* cmdLower, const char* option, bool remove)
+int sysCheckOption(char* cmdLower, const char* option, bool remove)
 {
 	size_t len = strlen(option);                  // первый цикл с 0xffffffff
 	char* found = strstr(cmdLower, option);
@@ -356,3 +356,10 @@ int SystemFunc::sysCheckOption(char* cmdLower, const char* option, bool remove)
 	}
 	return false;
 }
+
+void winWaitMessage(UINT message, WPARAM wParamValue, WPARAM wParamMask, LPARAM lParamValue, LPARAM lParamMask, BOOL checkWindowState)
+{
+
+}
+
+

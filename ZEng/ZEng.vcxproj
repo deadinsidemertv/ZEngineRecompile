@@ -143,12 +143,14 @@
     <ClCompile Include="Globals.cpp" />
     <ClCompile Include="oCMenuSavegame.cpp" />
     <ClCompile Include="oCMenu_ChgKeys.cpp" />
+    <ClCompile Include="Phoenix.cpp" />
     <ClCompile Include="SystemFunc.cpp" />
     <ClCompile Include="zCEngine.cpp" />
     <ClCompile Include="zCInputCallback.cpp" />
     <ClCompile Include="zCMenu.cpp" />
     <ClCompile Include="zCView.cpp" />
-    <ClCompile Include="ZEng.cpp" />
+    <ClCompile Include="zWin32.cpp" />
+    <ClCompile Include="zVideo_Win32.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CGameManager.h" />
@@ -156,11 +158,14 @@
     <ClInclude Include="oCMenuSavegame.h" />
     <ClInclude Include="oCMenu_ChgKeys.h" />
     <ClInclude Include="oGameSession.h" />
+    <ClInclude Include="Phoenix.h" />
     <ClInclude Include="SystemFunc.h" />
     <ClInclude Include="zCEngine.h" />
     <ClInclude Include="zCInputCallback.h" />
     <ClInclude Include="zCMenu.h" />
     <ClInclude Include="zCView.h" />
+    <ClInclude Include="zVideo_Win32.h" />
+    <ClInclude Include="zWin32.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

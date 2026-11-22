@@ -1,5 +1,6 @@
 #pragma once
 #include <Windows.h>
+#include <ddraw.h>
 
 // Предварительные объявления классов (чтобы не тянуть лишние .h)
 class zCEngine;
@@ -97,3 +98,26 @@ extern int g_noNetwork;
 extern int g_noDraw;
 extern int g_noDrawwin;
 extern int g_vidCheckMemory;
+
+extern int g_vidBusyMode;
+extern int g_winMinimized;
+
+extern IDirectDraw7* g_DirectDraw;
+extern int g_vidDontShowErrors;
+
+struct DirectDrawErrorEntry
+{
+    HRESULT code;
+    const char* message;
+};
+
+extern DirectDrawErrorEntry g_DirectDrawErrors[96];
+extern const char* g_DirectDrawError;
+struct SURFACE
+{
+    // ...
+    SURFACE* prev; // +0x40
+    SURFACE* next; // +0x44
+};
+
+extern SURFACE* g_SurfaceListHead;
