@@ -20,6 +20,11 @@ public:
 	static void Menu(CGameManager* gm, int mode);
 	static void GameInit(CGameManager* gm);
 
+
+	static void CheckWindowsVersion();
+
+	static INT_PTR CALLBACK MemoryDialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 	
+	static int sysCheckOption(char* cmdLower, const char* option, bool remove);
 };
 

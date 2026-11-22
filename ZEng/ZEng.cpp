@@ -2,6 +2,7 @@
 #include "SystemFunc.h"
 #include "Globals.h"
 #include <commctrl.h>
+#pragma warning(disable : 4996)
 #include "CGameManager.h"
 #pragma comment(lib, "winmm.lib")
 #pragma comment(lib, "comctl32.lib")
@@ -11,11 +12,17 @@
 
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK netWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 int MainProg();
 
 
 int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char* lpCmdLine, int nCmdShow) {
 
+    DWORD ErrorNum;
+    DWORD dwStyle;
+    HANDLE hTargetProcessHandl;
+    HANDLE hSourceHandl;
+    HANDLE hSourceProcessHandle;
     LARGE_INTEGER CurrentTick;
 
     g_hInstApp = hInstance;
@@ -23,17 +30,18 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char* lpCmdL
     g_lockApp = CreateFileMappingA(INVALID_HANDLE_VALUE, nullptr, PAGE_READWRITE, 0, 32, lockName.c_str());
 
     if (g_lockApp) {
-        DWORD ErrorNum = GetLastError();
+        ErrorNum = GetLastError();
         if (ErrorNum == ERROR_ALREADY_EXISTS)
             ExitProcess(1);
     }
 
-    DWORD winMainThreadID = GetCurrentThreadId();
-    HANDLE hTargetProcessHandl = GetCurrentProcess();
-    HANDLE hSourceHandl = GetCurrentThread();
-    HANDLE hSourceProcessHandle = GetCurrentProcess();
+    g_winMainThreadID = GetCurrentThreadId();
+    ErrorNum = 0;
+    hTargetProcessHandl = GetCurrentProcess();
+    hSourceHandl = GetCurrentThread();
+    hSourceProcessHandle = GetCurrentProcess();
 
-    DuplicateHandle(hSourceProcessHandle, hSourceHandl, hTargetProcessHandl, &g_lpTargetHandle, 0, 0, DUPLICATE_SAME_ACCESS);
+    DuplicateHandle(hSourceProcessHandle, hSourceHandl, hTargetProcessHandl, &g_hMainThread, 0, 0, DUPLICATE_SAME_ACCESS);
 
     QueryPerformanceFrequency((LARGE_INTEGER*)&g_TimerFrequencyLow);
 
@@ -65,7 +73,9 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char* lpCmdL
     GetModuleFileNameA(NULL,g_ExePath, MAX_PATH);
     InitCommonControls();
 
-    memset(g_GDIObjects, 0, sizeof(g_GDIObjects));
+    memset(g_MouseData, 0, sizeof(g_MouseData));
+
+    SystemFunc::CheckWindowsVersion();
 
     g_dcScreen = CreateCompatibleDC(NULL);
     int tempMetric = GetSystemMetrics(SM_CXFRAME);
@@ -92,27 +102,36 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char* lpCmdL
         SystemFunc::sysHardExit(s_Could_not_register_window_class_00839c74);
     }
 
+    windowClass = { 0 };
+
+    windowClass.lpfnWndProc = &netWindowProc;
+    windowClass.hInstance = g_hInstApp;
+    windowClass.lpszClassName = "DDWndClass";
+    WindowClassID = RegisterClassA(&windowClass);
+
+    if (WindowClassID == 0) {
+        SystemFunc::sysHardExit(s_Could_not_register_window_class_00839c74);
+    }
+
     g_WindowPosition = CW_USEDEFAULT;
     g_WindowWidht = g_WindowExtraWidth + 320;
     g_WindowHeight = g_WindowExtraHeight + 240;
 
     if (g_UseRegistry != 0) {
-        SystemFunc::cfgFetchTopic("error");
+        SystemFunc::cfgFetchTopic("System");
     }
 
-    DWORD dwStyle = WS_OVERLAPPEDWINDOW;
+
+    dwStyle = WS_OVERLAPPEDWINDOW;
     if (g_IsWindowVisible != 0) {
-        dwStyle = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
+        dwStyle = WS_OVERLAPPEDWINDOW | WS_MAXIMIZE;
     }
 
-    g_HWND = CreateWindowExA(0x300, "DDWndClass", APP_NAME, dwStyle, g_WindowPosition, g_WindowPosition,g_WindowWidht, g_WindowHeight, NULL, g_Menu, g_hInstApp, NULL);
+    g_HWND = CreateWindowExA(0x300, "DDWndClass", APP_NAME, ErrorNum, g_WindowPosition, g_WindowPosition,g_WindowWidht, g_WindowHeight, NULL, g_Menu, g_hInstApp, NULL);
 
     if (g_HWND != nullptr) {
-
-        ShowWindow(g_HWND, SW_SHOW); // Принудительно показываем окно
-        UpdateWindow(g_HWND);
-
-        SystemFunc::NetInit();
+        
+        SystemFunc::NetInit(); // без реализации в оригинале
         MainProg();
         SystemFunc::libExit();
     }
@@ -146,4 +165,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     default:
         return DefWindowProc(hwnd, uMsg, wParam, lParam);
     }
+}
+
+LRESULT CALLBACK netWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    return DefWindowProcA(hwnd, uMsg, wParam, lParam);
 }

@@ -1,6 +1,7 @@
 #include "SystemFunc.h"
 #include "Globals.h"
 #include "zCEngine.h"
+#pragma warning(disable : 4996)
 #include "CGameManager.h"
 
 void SystemFunc::sysEvent()
@@ -61,7 +62,126 @@ void SystemFunc::sysEvent()
 
 void SystemFunc::sysParseCommandLine(char  *lpCmdLine)
 {
+	DWORD CurrentTime;
+	DWORD TimeFromStart;
+	LARGE_INTEGER counter;
 
+	char* buf = (char*)LocalAlloc(LMEM_ZEROINIT, strlen(lpCmdLine) + 2);
+	if (buf == 0) {
+		if (g_UseHighResTimer == 0) {
+			CurrentTime = timeGetTime();
+		}
+		else {
+			QueryPerformanceCounter(&counter);
+			CurrentTime = (DWORD)(counter.QuadPart / g_TimerFrequencyMS);
+		}
+	}
+
+	TimeFromStart = CurrentTime - g_GameTime;
+
+	bool vidMode = (g_VideoHwModeCur.type == 5);
+	if (vidMode) {
+		//vidMinimize(0);
+	}
+	buf = (char*)DialogBoxParamA(g_hInstApp, MAKEINTRESOURCEA(143), g_HWND,MemoryDialogProc, strlen(lpCmdLine) + 2);
+	if (vidMode) {
+		//vidRestore();
+	}
+
+	if (g_UseHighResTimer == 0) {
+		CurrentTime = timeGetTime();
+	}
+	else {
+		QueryPerformanceCounter(&counter);
+		CurrentTime = (DWORD)(counter.QuadPart / g_TimerFrequencyMS);
+	}
+
+	g_SysTimeGap = g_SysTimeGap + ((CurrentTime - g_GameTime) - TimeFromStart);
+
+	if (buf == 0) {
+		libExit();
+		if (g_hMainThread != 0) {
+			CloseHandle(g_hMainThread);
+		}
+		if (g_FirstMutex != 0) {
+			CloseHandle(g_FirstMutex);
+		}
+
+		ExitProcess(0);
+	}
+
+	g_sysCommandLine = buf;
+	strcpy(buf, lpCmdLine);
+
+	char cmdLower[2048];
+	strcpy(cmdLower, lpCmdLine);
+	_strlwr(cmdLower);
+
+	char* logArg = strstr(cmdLower, "-log=");
+
+	if (logArg != nullptr) {
+		int pos = (int)(logArg - cmdLower);
+
+		const char* src = g_sysCommandLine + pos + 5;
+		int j = 0;
+
+		while (src[j] != '\0' && src[j] != ' ') {
+			g_LogFileName[j] = src[j];                  // 0x0086ed28
+			j++;
+		}
+		g_LogFileName[j] = '\0';
+
+		int consumed = j + 6;
+
+		memmove(cmdLower + pos, cmdLower + pos + consumed, strlen(cmdLower) - pos);
+		memmove(g_sysCommandLine + pos, g_sysCommandLine + pos + consumed,
+			strlen(g_sysCommandLine) - pos);
+	}
+
+	TimeFromStart = sysCheckOption(cmdLower, "-safe", 1);
+	if (TimeFromStart != 0) {
+		g_usrSafeMode = 1;
+	}
+	TimeFromStart = sysCheckOption(cmdLower, "-windowed", 1);
+	if (TimeFromStart != 0) {
+		g_windowed = 1;
+	}
+	TimeFromStart = sysCheckOption(cmdLower, "-fullscreen", 1);
+	if (TimeFromStart != 0) {
+		g_windowed = 2;
+	}
+	TimeFromStart = sysCheckOption(cmdLower, "-safelog", 1);
+	if (TimeFromStart != 0) {
+		g_safeLog = 1;
+	}
+	TimeFromStart = sysCheckOption(cmdLower, "-nonetwork", 1);
+	if (TimeFromStart != 0) {
+		g_netEnable = 0;
+	}
+	TimeFromStart = sysCheckOption(cmdLower, "-noddrawwin", 1);
+	if (TimeFromStart != 0) {
+		g_noDrawwin = 0;
+	}
+	TimeFromStart = sysCheckOption(cmdLower, "-noddraw", 1);
+	if (TimeFromStart != 0) {
+		g_noDraw = 0;
+	}
+	TimeFromStart = sysCheckOption(cmdLower, "-noddrawmemcheck", 1);
+	if (TimeFromStart != 0) {
+		g_vidCheckMemory = 0;
+	}
+	TimeFromStart = sysCheckOption(cmdLower, "-noreg", 1);
+	if (TimeFromStart != 0) {
+		g_UseRegistry = 0;
+	}
+	if (g_usrSafeMode != 0) {
+
+		g_windowed = 4;
+		g_netEnable = 0;
+		g_noDraw = 0;
+		g_noDrawwin = 0;
+	}
+	return;
 }
 
 void SystemFunc::sysHardExit(const char* msg,...)
@@ -159,4 +279,80 @@ void SystemFunc::GameInit(CGameManager* gm)
 
 }
 
+void SystemFunc::CheckWindowsVersion()
+{
+	HDC hdc;
+	char osName[64];
 
+	OSVERSIONINFOA vi = {0};
+	vi.dwOSVersionInfoSize = sizeof(vi);
+	GetVersionExA(&vi);
+	if (vi.dwPlatformId == 0) {
+		MessageBoxA(g_HWND, "s_This_program_cannot_be_run_under", NULL, MB_ICONHAND | MB_SETFOREGROUND);
+		_exit(3);
+	}
+
+	hdc = GetDC(NULL);
+	g_winBPP = GetDeviceCaps(hdc, 0xc);
+	ReleaseDC(NULL, hdc);
+	if (g_winBPP < 8) {
+		MessageBoxA(g_HWND,"s_This_program_requires_a_256_color", NULL, MB_ICONHAND | MB_SETFOREGROUND);
+		_exit(2);
+	}
+
+	if (vi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS) {   // 1
+		strcpy(osName, "Microsoft Windows");
+	}
+	else if (vi.dwPlatformId == VER_PLATFORM_WIN32_NT) {   // 2
+		strcpy(osName, "Microsoft Windows NT");
+		g_winNT = 1;
+	}
+	else {
+		strcpy(osName, "an unknown operating system");
+	}
+
+	for (const char* p = vi.szCSDVersion; *p != '\0'; p++) {
+		if (*p != ' ' && *p != '\t') {
+			strcat(osName, " ");
+			strcat(osName, vi.szCSDVersion);
+			break;
+		}
+	}
+
+	return;
+}
+
+
+
+INT_PTR CALLBACK SystemFunc::MemoryDialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	return FALSE;   // TODO: FUN_004f34c0
+}
+
+int SystemFunc::sysCheckOption(char* cmdLower, const char* option, bool remove)
+{
+	size_t len = strlen(option);                  // первый цикл с 0xffffffff
+	char* found = strstr(cmdLower, option);
+
+	while (found != nullptr) {
+		char next = found[len];                   // символ сразу после ключа
+		if (next == ' ' || next == '\t' || next == '\0') {   // ключ целое слово
+			if (!remove)
+				return true;
+
+			size_t cut = len;                     // сколько символов вырезать
+			if (next == ' ' || next == '\t')
+				cut = len + 1;                    // вместе с пробелом после ключа
+
+			// вырезаем из cmdLower
+			memmove(found, found + cut, strlen(found + cut) + 1);
+
+			// то же место в оригинальной строке
+			char* inOrig = g_sysCommandLine + (found - cmdLower);
+			memmove(inOrig, inOrig + cut, strlen(inOrig + cut) + 1);
+			return true;
+		}
+		found = strstr(found + 1, option);        // не то слово, ищем дальше
+	}
+	return false;
+}
