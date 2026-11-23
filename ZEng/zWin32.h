@@ -3,3 +3,6 @@
 
 
 DWORD sysGetTime();
+
+void sysHardExit(const char* msg, ...);
+void vidCloseDisplay(int needClose);

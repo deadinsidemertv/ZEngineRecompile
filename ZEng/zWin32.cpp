@@ -15,6 +15,7 @@
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK netWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+void sysHardExit(const char* msg, ...);
 
 
 int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char* lpCmdLine, int nCmdShow) {
@@ -107,7 +108,7 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char* lpCmdL
 
     windowClass.lpfnWndProc = &netWindowProc;
     windowClass.hInstance = g_hInstApp;
-    windowClass.lpszClassName = "DDWndClass";
+    windowClass.lpszClassName = "DDWinSock";
     WindowClassID = RegisterClassA(&windowClass);
 
     if (WindowClassID == 0) {
@@ -128,7 +129,7 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char* lpCmdL
         dwStyle = WS_OVERLAPPEDWINDOW | WS_MAXIMIZE;
     }
 
-    g_HWND = CreateWindowExA(0x300, "DDWndClass", APP_NAME, ErrorNum, g_WindowPosition, g_WindowPosition,g_WindowWidht, g_WindowHeight, NULL, g_Menu, g_hInstApp, NULL);
+    g_HWND = CreateWindowExA(0x300, "DDWndClass", APP_NAME, dwStyle, g_WindowPosition, g_WindowPosition,g_WindowWidht, g_WindowHeight, NULL, g_Menu, g_hInstApp, NULL);
 
     if (g_HWND != nullptr) {
         
@@ -173,4 +174,59 @@ DWORD sysGetTime()
     QueryPerformanceCounter(&tick);
 
     return static_cast<DWORD>(tick.QuadPart / g_TimerFrequencyMS - g_GameTime);
+}
+
+void sysHardExit(const char* msg, ...)
+{
+    DWORD curTime;
+    LARGE_INTEGER tick;
+
+    if (g_sysExiting == 0) {
+        return;
+    }
+
+    g_sysExiting = 1;
+
+    if (g_VideoHwModeCur.type == 5) {
+        vidCloseDisplay(0);
+    }
+    ShowWindow(g_HWND, 0);
+    if (g_UseHighResTimer == 0) {
+        curTime = timeGetTime();
+    }
+    else {
+        QueryPerformanceCounter(&tick);
+        curTime = (DWORD)((ULONGLONG)tick.QuadPart / g_TimerFrequencyMS);
+    }
+
+    DWORD diffTime = curTime - g_GameTime;
+    vidCloseDisplay(0);
+    ShowWindow(g_HWND, 0);
+    const char* message = "";
+    DialogBoxParamA(g_hInstApp, MAKEINTRESOURCEA(123), NULL, FatalErrorDlgProc, (LPARAM)message);
+
+    if (g_UseHighResTimer == 0) {
+        curTime = timeGetTime();
+    }
+    else {
+        QueryPerformanceCounter(&tick);
+        curTime = (DWORD)((ULONGLONG)tick.QuadPart / g_TimerFrequencyMS);
+    }
+
+    g_SysTimeGap = g_SysTimeGap + ((curTime - g_GameTime) - diffTime);
+    libExit();
+
+    if (g_hMainThread != nullptr) {
+        CloseHandle(g_hMainThread);
+    }
+    if (g_FirstMutex != nullptr) {
+        CloseHandle(g_FirstMutex);
+    }
+
+    ExitProcess(0);
+}
+
+void vidCloseDisplay(int needClose) 
+{
+
 }

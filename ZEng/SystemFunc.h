@@ -6,7 +6,6 @@ class CGameManager;
 
 void sysEvent();
 void sysParseCommandLine(char* lpCmdLine);
-void sysHardExit(const char* msg,...);
 void NetInit();
 void cfgFetchTopic(const char* path);
 void libExit();
@@ -26,6 +25,8 @@ INT_PTR CALLBACK MemoryDialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPa
 int sysCheckOption(char* cmdLower, const char* option, bool remove);
 
 void winWaitMessage(UINT message, WPARAM wParamValue, WPARAM wParamMask, LPARAM lParamValue, LPARAM lParamMask, BOOL checkWindowState);
+
+INT_PTR CALLBACK FatalErrorDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 
 

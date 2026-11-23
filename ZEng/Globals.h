@@ -22,7 +22,7 @@ extern HANDLE g_lockApp;
 extern HMENU g_Menu;
 extern HICON g_Icon;
 extern HBITMAP g_BitMap;
-extern char g_ExePath[MAX_PATH]; 
+extern char g_ExePath[MAX_PATH];
 extern HDC g_dcScreen;
 extern DWORD g_MouseData[99];
 
@@ -48,6 +48,8 @@ extern int g_WindowHeight;
 extern int g_VidHideMenu;
 extern int g_UseRegistry;
 extern int g_IsWindowVisible;
+
+extern int g_vidResetPaletteOnRestore;
 
 // --- Флаги платформы ---
 extern int g_winBPP;
@@ -77,17 +79,41 @@ extern bool g_WaitScreenUnblank;
 extern bool g_LostFocus;
 extern bool g_RestoreCursor;
 
-#pragma pack(push, 1)
 struct VIDMODE {
-    char pad[0x20];    // поля 0x00-0x1F пока неизвестны
+    DWORD width = 0;
+    DWORD height = 0;
+    DWORD bpp = 0;
+    DWORD unk1 = 0;
+    DWORD unk2 = 0;
+    DWORD unk3 = 0;
+    DWORD unk4 = 0;
     char type;         // 0x20: 4 = окно, 5 = полный экран, 0xFF = не выбран
-    char pad2[0x1B];   // добиваем до 60 байт (0x3C)
+    DWORD unk5 = 0;
+    DWORD unk6 = 0;
 };
-static_assert(sizeof(VIDMODE) == 60, "VIDMODE size");
-#pragma pack(pop)
 
 extern VIDMODE g_VideoHwModeCur;   // 0x00838ab4
 
+
+// Бывший VideoObject, объединён с SURFACE (гипотеза: это один и тот же тип)
+struct SURFACE
+{
+    char pad_0000;
+
+    IDirectDrawSurface7* surface;  // +0x28
+    char pad_002C;
+
+    int field_30;                  // +0x30, == 5 похоже на режим "полный экран"
+    char pad_0034;
+
+    int needsRestore;              // +0x3C, ставится в 1 перед Restore()
+
+    SURFACE* prev;                 // +0x40
+    SURFACE* next;                 // +0x44
+};
+
+extern SURFACE* g_SurfaceListHead;
+extern SURFACE* g_Surfaces[3]; // 0x0086ebc0, hypothesis: тот же тип, что и элементы списка
 
 /// флаги запуска из cmdLine
 
@@ -113,11 +139,9 @@ struct DirectDrawErrorEntry
 
 extern DirectDrawErrorEntry g_DirectDrawErrors[96];
 extern const char* g_DirectDrawError;
-struct SURFACE
-{
-    // ...
-    SURFACE* prev; // +0x40
-    SURFACE* next; // +0x44
-};
 
-extern SURFACE* g_SurfaceListHead;
+extern int g_vidModeFlag;
+
+extern int g_DAT_0086ebb8;
+
+extern int g_sysExiting;

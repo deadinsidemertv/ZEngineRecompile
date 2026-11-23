@@ -1,6 +1,7 @@
 #include "SystemFunc.h"
 #include "Globals.h"
 #include "zCEngine.h"
+#include "zVideo_Win32.h"
 #pragma warning(disable : 4996)
 #include "CGameManager.h"
 
@@ -62,12 +63,14 @@ void sysEvent()
 
 void sysParseCommandLine(char  *lpCmdLine)
 {
-	DWORD CurrentTime;
-	DWORD TimeFromStart;
-	LARGE_INTEGER counter;
-
 	char* buf = (char*)LocalAlloc(LMEM_ZEROINIT, strlen(lpCmdLine) + 2);
+
 	if (buf == 0) {
+		// Памяти не хватило. Пока показывается диалог, время игры не должно идти,
+		// поэтому его замеряют до и после и разницу добавляют в g_SysTimeGap.
+		DWORD CurrentTime;
+		LARGE_INTEGER counter;
+
 		if (g_UseHighResTimer == 0) {
 			CurrentTime = timeGetTime();
 		}
@@ -75,39 +78,33 @@ void sysParseCommandLine(char  *lpCmdLine)
 			QueryPerformanceCounter(&counter);
 			CurrentTime = (DWORD)(counter.QuadPart / g_TimerFrequencyMS);
 		}
-	}
+		DWORD TimeFromStart = CurrentTime - g_GameTime;
 
-	TimeFromStart = CurrentTime - g_GameTime;
-
-	bool vidMode = (g_VideoHwModeCur.type == 5);
-	if (vidMode) {
-		//vidMinimize(0);
-	}
-	buf = (char*)DialogBoxParamA(g_hInstApp, MAKEINTRESOURCEA(143), g_HWND,MemoryDialogProc, strlen(lpCmdLine) + 2);
-	if (vidMode) {
-		//vidRestore();
-	}
-
-	if (g_UseHighResTimer == 0) {
-		CurrentTime = timeGetTime();
-	}
-	else {
-		QueryPerformanceCounter(&counter);
-		CurrentTime = (DWORD)(counter.QuadPart / g_TimerFrequencyMS);
-	}
-
-	g_SysTimeGap = g_SysTimeGap + ((CurrentTime - g_GameTime) - TimeFromStart);
-
-	if (buf == 0) {
-		libExit();
-		if (g_hMainThread != 0) {
-			CloseHandle(g_hMainThread);
+		bool vidMode = (g_VideoHwModeCur.type == 5);
+		if (vidMode) {
+			vidMinimize(0);
 		}
-		if (g_FirstMutex != 0) {
-			CloseHandle(g_FirstMutex);
+		buf = (char*)DialogBoxParamA(g_hInstApp, MAKEINTRESOURCEA(143), g_HWND,
+			MemoryDialogProc, strlen(lpCmdLine) + 2);
+		if (vidMode) {
+			vidRestore();
 		}
 
-		ExitProcess(0);
+		if (g_UseHighResTimer == 0) {
+			CurrentTime = timeGetTime();
+		}
+		else {
+			QueryPerformanceCounter(&counter);
+			CurrentTime = (DWORD)(counter.QuadPart / g_TimerFrequencyMS);
+		}
+		g_SysTimeGap = g_SysTimeGap + ((CurrentTime - g_GameTime) - TimeFromStart);
+
+		if (buf == 0) {
+			libExit();
+			if (g_hMainThread != 0) CloseHandle(g_hMainThread);
+			if (g_FirstMutex != 0) CloseHandle(g_FirstMutex);
+			ExitProcess(0);
+		}
 	}
 
 	g_sysCommandLine = buf;
@@ -138,40 +135,42 @@ void sysParseCommandLine(char  *lpCmdLine)
 			strlen(g_sysCommandLine) - pos);
 	}
 
-	TimeFromStart = sysCheckOption(cmdLower, "-safe", 1);
-	if (TimeFromStart != 0) {
+	int found;
+
+	found = sysCheckOption(cmdLower, "-safe", 1);
+	if (found != 0) {
 		g_usrSafeMode = 1;
 	}
-	TimeFromStart = sysCheckOption(cmdLower, "-windowed", 1);
-	if (TimeFromStart != 0) {
+	found = sysCheckOption(cmdLower, "-windowed", 1);
+	if (found != 0) {
 		g_windowed = 1;
 	}
-	TimeFromStart = sysCheckOption(cmdLower, "-fullscreen", 1);
-	if (TimeFromStart != 0) {
+	found = sysCheckOption(cmdLower, "-fullscreen", 1);
+	if (found != 0) {
 		g_windowed = 2;
 	}
-	TimeFromStart = sysCheckOption(cmdLower, "-safelog", 1);
-	if (TimeFromStart != 0) {
+	found = sysCheckOption(cmdLower, "-safelog", 1);
+	if (found != 0) {
 		g_safeLog = 1;
 	}
-	TimeFromStart = sysCheckOption(cmdLower, "-nonetwork", 1);
-	if (TimeFromStart != 0) {
+	found = sysCheckOption(cmdLower, "-nonetwork", 1);
+	if (found != 0) {
 		g_netEnable = 0;
 	}
-	TimeFromStart = sysCheckOption(cmdLower, "-noddrawwin", 1);
-	if (TimeFromStart != 0) {
+	found = sysCheckOption(cmdLower, "-noddrawwin", 1);
+	if (found != 0) {
 		g_noDrawwin = 0;
 	}
-	TimeFromStart = sysCheckOption(cmdLower, "-noddraw", 1);
-	if (TimeFromStart != 0) {
+	found = sysCheckOption(cmdLower, "-noddraw", 1);
+	if (found != 0) {
 		g_noDraw = 0;
 	}
-	TimeFromStart = sysCheckOption(cmdLower, "-noddrawmemcheck", 1);
-	if (TimeFromStart != 0) {
+	found = sysCheckOption(cmdLower, "-noddrawmemcheck", 1);
+	if (found != 0) {
 		g_vidCheckMemory = 0;
 	}
-	TimeFromStart = sysCheckOption(cmdLower, "-noreg", 1);
-	if (TimeFromStart != 0) {
+	found = sysCheckOption(cmdLower, "-noreg", 1);
+	if (found != 0) {
 		g_UseRegistry = 0;
 	}
 	if (g_usrSafeMode != 0) {
@@ -184,10 +183,6 @@ void sysParseCommandLine(char  *lpCmdLine)
 	return;
 }
 
-void sysHardExit(const char* msg,...)
-{
-
-}
 
 void NetInit()
 {
@@ -362,4 +357,9 @@ void winWaitMessage(UINT message, WPARAM wParamValue, WPARAM wParamMask, LPARAM 
 
 }
 
+INT_PTR CALLBACK FatalErrorDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	// todo: оригинал FUN_004f62b0 рисует свой заголовок (ccDrawCaption), пока не переносим
+	return 0;
+}
 
