@@ -197,3 +197,5 @@ DirectDrawErrorEntry g_DirectDrawErrors[96] = {
 int g_sysExiting = 0;
 
 CGameManager* g_gameMan = nullptr;
+
+zCObjectFactory* g_zfactory = nullptr;

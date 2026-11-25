@@ -1,6 +1,7 @@
 #pragma once
 class zCVideoPlayer
 {
+public:
 	///size 48 byte
     virtual ~zCVideoPlayer();                          // слот 0
     virtual bool OpenVideo(const char* file);          // слот 1

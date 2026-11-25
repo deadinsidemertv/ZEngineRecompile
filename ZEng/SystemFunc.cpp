@@ -199,6 +199,11 @@ void libExit()
 
 }
 
+void zInitOptions()
+{
+
+}
+
 DWORD LoaderThreadProc(LPVOID lpParam)
 {
 	g_DialogParam = CreateDialogParamA(g_hInstApp, (LPCSTR)0xa5, NULL, &SplashDlgProc, 0);

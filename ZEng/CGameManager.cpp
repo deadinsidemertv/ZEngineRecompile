@@ -2,6 +2,7 @@
 #include "oGameSession.h"
 #include "oCMenu_ChgKeys.h"
 #include "Globals.h"
+#include "zCView.h"
 #include "oCMenuSavegame.h"
 #include "SystemFunc.h"
 #include "zCMenu.h"

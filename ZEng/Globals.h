@@ -6,6 +6,7 @@
 class zCEngine;
 class zCView;
 class CGameManager;
+class zCObjectFactory;
 
 extern CGameManager* g_gameMan;
 
@@ -146,3 +147,5 @@ extern int g_vidModeFlag;
 extern int g_DAT_0086ebb8;
 
 extern int g_sysExiting;
+
+extern zCObjectFactory* g_zfactory;

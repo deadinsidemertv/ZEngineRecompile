@@ -4,6 +4,6 @@
 class zCEngine
 {
 public:
-	void Init(HWND* hwnd);
+	int Init(HWND* hwnd);
 };
 

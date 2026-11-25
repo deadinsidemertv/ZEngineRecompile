@@ -1,4 +1,4 @@
-#include "oСBinkPlayer.h"
+#include "oCBinkPlayer.h"
 
 oCBinkPlayer::oCBinkPlayer()
 {

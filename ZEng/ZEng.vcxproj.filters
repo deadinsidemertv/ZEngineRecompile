@@ -22,6 +22,18 @@
     <Filter Include="Main">
       <UniqueIdentifier>{9d0ab5aa-eaff-4749-a30e-990cd13349cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="VideoPlayer">
+      <UniqueIdentifier>{517396d1-3511-4fdf-97ca-9f3d6d736427}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="zView">
+      <UniqueIdentifier>{78d34371-3497-40bf-bcda-e028053a66af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Types">
+      <UniqueIdentifier>{17828be1-6373-41b3-930e-e04f353dce78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\InputCallBack">
+      <UniqueIdentifier>{d64ec745-ef7b-46fe-9f5e-e5b47d9e0293}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CGameManager.cpp">
@@ -30,19 +42,10 @@
     <ClCompile Include="SystemFunc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="zCMenu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="oCMenu_ChgKeys.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="oCMenuSavegame.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="zCInputCallback.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="zCView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="zCEngine.cpp">
@@ -60,6 +63,33 @@
     <ClCompile Include="Phoenix.cpp">
       <Filter>Main</Filter>
     </ClCompile>
+    <ClCompile Include="oCBinkPlayer.cpp">
+      <Filter>VideoPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="zCBinkPlayer.cpp">
+      <Filter>VideoPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="zCVideoPlayer.cpp">
+      <Filter>VideoPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="zCView.cpp">
+      <Filter>zView</Filter>
+    </ClCompile>
+    <ClCompile Include="zCViewBase.cpp">
+      <Filter>zView</Filter>
+    </ClCompile>
+    <ClCompile Include="zCInputCallback.cpp">
+      <Filter>Header Files\InputCallBack</Filter>
+    </ClCompile>
+    <ClCompile Include="zCMenu.cpp">
+      <Filter>Header Files\InputCallBack</Filter>
+    </ClCompile>
+    <ClCompile Include="zCSession.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zCWorld.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CGameManager.h">
@@ -74,19 +104,10 @@
     <ClInclude Include="oGameSession.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="zCMenu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="oCMenu_ChgKeys.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="oCMenuSavegame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="zCInputCallback.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="zCView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="zCEngine.h">
@@ -100,6 +121,36 @@
     </ClInclude>
     <ClInclude Include="zWin32.h">
       <Filter>Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="oCBinkPlayer.h">
+      <Filter>VideoPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="zCBinkPlayer.h">
+      <Filter>VideoPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="zCVideoPlayer.h">
+      <Filter>VideoPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="zCView.h">
+      <Filter>zView</Filter>
+    </ClInclude>
+    <ClInclude Include="zCViewBase.h">
+      <Filter>zView</Filter>
+    </ClInclude>
+    <ClInclude Include="zTypes3D.h">
+      <Filter>Types</Filter>
+    </ClInclude>
+    <ClInclude Include="zCInputCallback.h">
+      <Filter>Header Files\InputCallBack</Filter>
+    </ClInclude>
+    <ClInclude Include="zCMenu.h">
+      <Filter>Header Files\InputCallBack</Filter>
+    </ClInclude>
+    <ClInclude Include="zCSession.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zCWorld.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

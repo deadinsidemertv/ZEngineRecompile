@@ -1,6 +1,10 @@
 #pragma once
+#include "zCObject.h"
 
-class zCWorld
+class zCSession;
+
+
+class zCWorld : zCObject
 {
 public:
 

@@ -141,29 +141,42 @@
   <ItemGroup>
     <ClCompile Include="CGameManager.cpp" />
     <ClCompile Include="Globals.cpp" />
+    <ClCompile Include="oCBinkPlayer.cpp" />
     <ClCompile Include="oCMenuSavegame.cpp" />
     <ClCompile Include="oCMenu_ChgKeys.cpp" />
     <ClCompile Include="Phoenix.cpp" />
     <ClCompile Include="SystemFunc.cpp" />
+    <ClCompile Include="zCBinkPlayer.cpp" />
     <ClCompile Include="zCEngine.cpp" />
     <ClCompile Include="zCInputCallback.cpp" />
     <ClCompile Include="zCMenu.cpp" />
+    <ClCompile Include="zCSession.cpp" />
+    <ClCompile Include="zCVideoPlayer.cpp" />
     <ClCompile Include="zCView.cpp" />
+    <ClCompile Include="zCViewBase.cpp" />
+    <ClCompile Include="zCWorld.cpp" />
     <ClCompile Include="zWin32.cpp" />
     <ClCompile Include="zVideo_Win32.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CGameManager.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="oCBinkPlayer.h" />
     <ClInclude Include="oCMenuSavegame.h" />
     <ClInclude Include="oCMenu_ChgKeys.h" />
     <ClInclude Include="oGameSession.h" />
     <ClInclude Include="Phoenix.h" />
     <ClInclude Include="SystemFunc.h" />
+    <ClInclude Include="zCBinkPlayer.h" />
     <ClInclude Include="zCEngine.h" />
     <ClInclude Include="zCInputCallback.h" />
     <ClInclude Include="zCMenu.h" />
+    <ClInclude Include="zCSession.h" />
+    <ClInclude Include="zCVideoPlayer.h" />
     <ClInclude Include="zCView.h" />
+    <ClInclude Include="zCViewBase.h" />
+    <ClInclude Include="zCWorld.h" />
+    <ClInclude Include="zTypes3D.h" />
     <ClInclude Include="zVideo_Win32.h" />
     <ClInclude Include="zWin32.h" />
   </ItemGroup>

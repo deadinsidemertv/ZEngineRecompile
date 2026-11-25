@@ -2,7 +2,6 @@
 #include "zCVideoPlayer.h"
 
 
-
 class zCBinkPlayer : public zCVideoPlayer
 {
 
