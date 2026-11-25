@@ -3,5 +3,5 @@
 
 void zCWorld::SetOwnerSession(zCSession* Session)
 {
-
+	GameSession = Session;
 }
