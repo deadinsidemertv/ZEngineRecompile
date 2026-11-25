@@ -2,6 +2,6 @@
 class zCInputCallback
 {
 public:
-	virtual void Dummy();
+	virtual int HandleEvent(int keyCode);
 };
 

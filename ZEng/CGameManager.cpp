@@ -7,7 +7,11 @@
 #include "zCMenu.h"
 
 
-CGameManager::CGameManager() {}
+CGameManager::CGameManager() 
+{
+	g_gameMan = this;
+
+}
 
 
 void CGameManager::Init(HWND hwnd) 

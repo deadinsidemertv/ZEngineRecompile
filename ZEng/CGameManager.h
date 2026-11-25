@@ -1,14 +1,17 @@
 #pragma once
 #include <windows.h>
+#include "zCInputCallback.h"
 
 class oGameSession;
 class oCMenu_ChgKeys;
 class oCMenuSavegame;
 class zCView;
 
+/// <summary>
+/// 140byte class
+/// </summary>
 
-
-class CGameManager
+class CGameManager : public zCInputCallback
 {
 public:
 	CGameManager();

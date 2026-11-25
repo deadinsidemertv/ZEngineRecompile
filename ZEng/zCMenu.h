@@ -1,7 +1,8 @@
 #pragma once
 #include <string>
-#include "zCView.h"
-class zCMenu : public zCView
+#include "zCInputCallback.h"
+
+class zCMenu : public zCInputCallback
 {
 
 public:

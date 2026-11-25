@@ -1,6 +1,7 @@
 #pragma once
-#include "zCInputCallback.h"
-class zCView : public zCInputCallback
+#include "zCViewBase.h"
+
+class zCView : public zCViewBase
 {
 	public:
         zCView();

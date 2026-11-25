@@ -1,5 +1,6 @@
 #include "zCInputCallback.h"
 
-void zCInputCallback::Dummy() {
-
+int zCInputCallback::HandleEvent(int keyCode)
+{
+	return 0;
 }

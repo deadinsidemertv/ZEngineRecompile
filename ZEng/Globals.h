@@ -5,8 +5,9 @@
 // Предварительные объявления классов (чтобы не тянуть лишние .h)
 class zCEngine;
 class zCView;
+class CGameManager;
 
-
+extern CGameManager* g_gameMan;
 
 extern char* g_sysCommandLine;
 extern char* g_LogFileName;

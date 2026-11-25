@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "zCEngine.h"
 #include <ddraw.h>
+#include "CGameManager.h"
 #include "zCView.h"
 
 char* g_sysCommandLine = 0;
@@ -194,3 +195,5 @@ DirectDrawErrorEntry g_DirectDrawErrors[96] = {
 };
 
 int g_sysExiting = 0;
+
+CGameManager* g_gameMan = nullptr;
