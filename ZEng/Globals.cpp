@@ -199,3 +199,9 @@ int g_sysExiting = 0;
 CGameManager* g_gameMan = nullptr;
 
 zCObjectFactory* g_zfactory = nullptr;
+
+zCOption* g_zoption = nullptr;
+zCMallocGeneric* g_zmalloc = nullptr;
+zCResourceManager* g_zresMan = nullptr;
+zERROR* g_zerr = nullptr;
+zCFPUControler* g_zfpuControler = nullptr;

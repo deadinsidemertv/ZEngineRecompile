@@ -3,6 +3,7 @@
 #include "oCMenu_ChgKeys.h"
 #include "Globals.h"
 #include "zCView.h"
+#include "zCEngine.h"
 #include "oCMenuSavegame.h"
 #include "SystemFunc.h"
 #include "zCMenu.h"
@@ -12,6 +13,32 @@ CGameManager::CGameManager()
 {
 	g_gameMan = this;
 
+}
+
+void CGameManager::GameInit()
+{
+	BYTE keyState[256];
+
+	g_BitMap = LoadBitmapA(g_hInstApp, (LPCSTR)0xa9);
+
+	g_LoaderThread = CreateThread(NULL, 0, &LoaderThreadProc, NULL, 0, &g_LoaderThreadId);
+	GetKeyboardState(keyState);
+
+	if ((keyState[VK_NUMLOCK] & 1) != 0) {
+		keybd_event(VK_NUMLOCK, 0, KEYEVENTF_EXTENDEDKEY, 0);
+		keybd_event(VK_NUMLOCK, 0, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
+	}
+
+	g_zEngine = new zCEngine();
+
+	g_zEngine->Init(&window);
+
+	if (g_LoaderThreadId != 0) {
+		PostThreadMessageA(g_LoaderThreadId, WM_QUIT, 0, 0);
+	}
+
+	sysEvent();
+	InitScreen_Open();
 }
 
 
@@ -31,7 +58,7 @@ void CGameManager::Init(HWND hwnd)
 
 
 	sysEvent();
-	GameInit(this);
+	GameInit();
 	sysEvent();
 
 };
@@ -76,14 +103,14 @@ void CGameManager::Done() {}
 
 void CGameManager::InitScreen_Open()
 {
-	if (this->initScreen != nullptr) 
+	if (initScreen != nullptr) 
 	{
-		this->initScreen->Close(1); 
-		this->initScreen = nullptr;
+		initScreen->Close(1); 
+		initScreen = nullptr;
 	}
 
-	this->initScreen = new zCView(0, 0, 0x2000, 0x2000, 2);
+	initScreen = new zCView(0, 0, 0x2000, 0x2000, 2);
 	if (g_screen != nullptr) {
-		g_screen->InsertItem(this->initScreen, 0);
+		g_screen->InsertItem(initScreen, 0);
 	}
 };

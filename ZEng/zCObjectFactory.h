@@ -1,4 +1,6 @@
 #pragma once
+#include "zCObject.h"
+
 
 class zCClassDef;
 

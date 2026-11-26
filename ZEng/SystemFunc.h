@@ -17,8 +17,6 @@ DWORD LoaderThreadProc(LPVOID lpParam);
 INT_PTR SplashDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 void Menu(CGameManager* gm, int mode);
-void GameInit(CGameManager* gm);
-
 
 void CheckWindowsVersion();
 

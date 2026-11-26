@@ -252,32 +252,6 @@ void Menu(CGameManager* gm, int mode)
 
 }
 
-void GameInit(CGameManager* gm)
-{
-	BYTE keyState[256];
-
-	g_BitMap = LoadBitmapA(g_hInstApp, (LPCSTR)0xa9);
-
-	g_LoaderThread = CreateThread(NULL, 0, &LoaderThreadProc, NULL, 0, &g_LoaderThreadId);
-	GetKeyboardState(keyState);
-
-	if ((keyState[VK_NUMLOCK] & 1) != 0) {
-		keybd_event(VK_NUMLOCK, 0, KEYEVENTF_EXTENDEDKEY, 0);
-		keybd_event(VK_NUMLOCK, 0, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
-	}
-
-	g_zEngine = new zCEngine();
-
-	g_zEngine->Init(&gm->window);
-
-	if (g_LoaderThreadId != 0) {
-		PostThreadMessageA(g_LoaderThreadId, WM_QUIT, 0, 0);
-	}
-
-	sysEvent();
-	gm->InitScreen_Open();
-
-}
 
 void CheckWindowsVersion()
 {

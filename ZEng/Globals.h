@@ -7,6 +7,11 @@ class zCEngine;
 class zCView;
 class CGameManager;
 class zCObjectFactory;
+class zCMallocGeneric;
+class zCOption;
+class zERROR;
+class zCResourceManager;
+class zCFPUControler;
 
 extern CGameManager* g_gameMan;
 
@@ -149,3 +154,8 @@ extern int g_DAT_0086ebb8;
 extern int g_sysExiting;
 
 extern zCObjectFactory* g_zfactory;
+extern zCOption* g_zoption;
+extern zCMallocGeneric* g_zmalloc;
+extern zCResourceManager* g_zresMan;
+extern zERROR* g_zerr;
+extern zCFPUControler* g_zfpuControler;

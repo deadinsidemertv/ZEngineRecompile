@@ -90,6 +90,51 @@
     <ClCompile Include="zCWorld.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="zCObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zCClassDef.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zCObjectFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zCOption.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zMemory_Generic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Zdisk_vdfs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zCResourceManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zCThread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zERROR.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Zzbert.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ZzUlfi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ZzDieter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ZzCarsten.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zCTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zTools.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CGameManager.h">
@@ -150,6 +195,51 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="zCWorld.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zCObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zCClassDef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zCObjectFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zCOption.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zMemory_Generic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Zdisk_vdfs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zCResourceManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zCThread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zERROR.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Zzbert.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZzUlfi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZzDieter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZzCarsten.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zCTexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zTools.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -20,6 +20,8 @@ public:
 	void Run();
 	void Done();
 
+	void GameInit();
+
 	void InitScreen_Open();
 
 	HWND window;
